@@ -1,0 +1,91 @@
+// File: NewAppointment.js
+
+import React, { useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import moment from 'moment-timezone';
+
+const NewAppointment = () => {
+  // State variables to store form data
+  const [name, setName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [selectedDate, setSelectedDate] = useState(null); // Initialize as null
+  const [selectedTime, setSelectedTime] = useState('');
+  const [therapist, setTherapist] = useState('');
+  const [patientInfo, setPatientInfo] = useState('');
+  const [therapistInfo, setTherapistInfo] = useState('');
+  const [signature, setSignature] = useState('');
+  const [insuranceCardImage, setInsuranceCardImage] = useState(null);
+
+  // Function to handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Process form data (e.g., send it to the server)
+    // Here you can implement your logic to handle the new appointment creation
+    console.log("Form submitted:", { name, phoneNumber, selectedDate, selectedTime, therapist, patientInfo, therapistInfo, signature, insuranceCardImage });
+  };
+
+  // Function to handle file upload
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    setInsuranceCardImage(file);
+  };
+
+  return (
+    <div>
+      <h2>Create a New Appointment</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Name:</label>
+          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+        </div>
+        <div>
+          <label>Phone Number:</label>
+          <input type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
+        </div>
+        <div>
+          <label>Date:</label>
+          <DatePicker
+            selected={selectedDate}
+            onChange={(date) => setSelectedDate(date)}
+            dateFormat="MM/dd/yyyy"
+            required
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={15}
+            timeCaption="Time"
+            minTime={moment.tz("America/New_York").startOf('day')}
+            maxTime={moment.tz("America/New_York").endOf('day')}
+          />
+        </div>
+        <div>
+          <label>Time:</label>
+          <input type="time" value={selectedTime} onChange={(e) => setSelectedTime(e.target.value)} required />
+        </div>
+        <div>
+          <label>Therapist:</label>
+          <input type="text" value={therapist} onChange={(e) => setTherapist(e.target.value)} required />
+        </div>
+        <div>
+          <label>Patient Information:</label>
+          <textarea value={patientInfo} onChange={(e) => setPatientInfo(e.target.value)} required />
+        </div>
+        <div>
+          <label>Therapist Information:</label>
+          <textarea value={therapistInfo} onChange={(e) => setTherapistInfo(e.target.value)} required />
+        </div>
+        <div>
+          <label>Insurance Card Image Upload:</label>
+          <input type="file" accept="image/*" onChange={handleFileUpload} required />
+        </div>
+        <div>
+          <label>Signature:</label>
+          <input type="text" value={signature} onChange={(e) => setSignature(e.target.value)} required />
+        </div>
+        <button type="submit">Create Appointment</button>
+      </form>
+    </div>
+  );
+};
+
+export default NewAppointment;
