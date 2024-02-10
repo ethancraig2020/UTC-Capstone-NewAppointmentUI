@@ -1,0 +1,96 @@
+import React, { useState } from 'react';
+import { TextField, Button, Typography, TextareaAutosize, Divider } from '@mui/material';
+import { DatePicker } from '@mui/lab';
+
+export default function NewAppointmentView() {
+  return (
+    <div>
+      <Typography variant="h4">Create a New Appointment</Typography>
+      <NewAppointment />
+    </div>
+  );
+}
+
+function NewAppointment() {
+  // State variables to store form data
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [birthDate, setBirthDate] = useState(null);
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [selectedDate, setSelectedDate] = useState(null); // Initialize as null
+  const [selectedTime, setSelectedTime] = useState('');
+  const [therapist, setTherapist] = useState('');
+  const [therapistInfo, setTherapistInfo] = useState('');
+  const [signature, setSignature] = useState('');
+  const [insuranceCardImage, setInsuranceCardImage] = useState(null);
+
+  // Function to handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Process form data (e.g., send it to the server)
+    // Here you can implement your logic to handle the new appointment creation
+    console.log("Form submitted:", { firstName, lastName, birthDate, email, phoneNumber, selectedDate, selectedTime, therapist, therapistInfo, signature, insuranceCardImage });
+  };
+
+  // Function to handle file upload
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    setInsuranceCardImage(file);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Typography variant="h6">Patient Information</Typography>
+      <Divider />
+      <div>
+        <TextField label="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} required fullWidth />
+      </div>
+      <div>
+        <TextField label="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} required fullWidth />
+      </div>
+      <div>
+        <DatePicker
+          label="Birth Date"
+          value={birthDate}
+          onChange={(date) => setBirthDate(date)}
+          renderInput={(params) => <TextField {...params} />}
+          required
+          fullWidth
+        />
+      </div>
+      <div>
+        <TextField label="Email Address" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required fullWidth />
+      </div>
+      <div>
+        <TextField label="Contact Phone Number" type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required fullWidth />
+      </div>
+      <Typography variant="h6">Appointment Information</Typography>
+      <Divider />
+      <div>
+        <DatePicker
+          label="Date"
+          value={selectedDate}
+          onChange={(date) => setSelectedDate(date)}
+          renderInput={(params) => <TextField {...params} />}
+          required
+          fullWidth
+        />
+      </div>
+      <div>
+        <TextField label="Time" type="time" value={selectedTime} onChange={(e) => setSelectedTime(e.target.value)} required fullWidth />
+      </div>
+      <div>
+        <TextField label="Therapist" value={therapist} onChange={(e) => setTherapist(e.target.value)} required fullWidth />
+      </div>
+      <div>
+        <TextareaAutosize label="Therapist Information" value={therapistInfo} onChange={(e) => setTherapistInfo(e.target.value)} required minRows={3} fullWidth />
+      </div>
+      <input type="file" accept="image/*" onChange={handleFileUpload} required />
+      <div>
+        <TextField label="Signature" value={signature} onChange={(e) => setSignature(e.target.value)} required fullWidth />
+      </div>
+      <Button type="submit" variant="contained" color="primary">Create Appointment</Button>
+    </form>
+  );
+}
